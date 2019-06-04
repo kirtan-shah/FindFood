@@ -1,24 +1,32 @@
 
 let game;
-let agent;
 let brain;
+let agents;
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(400, 400);
   tf.setBackend('cpu');
 
   game = new Game();
-  agent = new Agent();
   brain = new Brain();
+  agents = [];
+  for(let i = 0; i < 150; i++) {
+    agents.push(new Agent());
+  }
 
-  frameRate(1000);
+  setInterval(function () {
+    game.update(agents, brain);
+  }, 0);
+
+  frameRate(30);
 }
 
 function draw() {
   background(255);
 
-  game.update(agent, brain);
+  game.draw(brain);
 
-  game.draw();
-  agent.draw();
+  for(let agent of agents) {
+    agent.draw();
+  }
 }
